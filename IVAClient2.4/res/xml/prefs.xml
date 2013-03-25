@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ <PreferenceCategory
+   android:summary="customize"
+   android:title="Personal Information" >
+  <EditTextPreference
+     android:key="your_name"
+     android:summary="Please enter your name"
+     android:title="your name" />
+  <Preference
+     android:key="your_pic"
+     android:summary="choose your pic"
+     android:title="your pic" />
+ </PreferenceCategory>
+
+ 
+ <PreferenceCategory  android:summary="customize"
+   android:title="Bot Customization" >
+   <Preference
+     android:key="bot_pic"
+     android:summary="choose bot pic"
+     android:title="bot pic" />
+  <ListPreference
+     android:entries="@array/listOptions"
+     android:entryValues="@array/listValues"
+     android:key="voicepref"
+     android:summary="chose voice of your bot"
+     android:title="choose voice" />
+ </PreferenceCategory>
+ 
+ 
+ <PreferenceCategory  android:summary="customize"
+   android:title="Import Contacts" >
+   <Preference
+     android:key="choose_contacts"
+     android:summary="choose contacts to import"
+     android:title="choose contacts" />
+  
+ </PreferenceCategory>
+ 
+ 
+</PreferenceScreen>

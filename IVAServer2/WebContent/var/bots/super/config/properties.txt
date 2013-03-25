@@ -1,0 +1,8 @@
+url:http://iva.intelligent-voice-agent.cloudbees.net
+name:SUPER
+email:talla.sagar@gmail.com
+gender:male
+botmaster:Dr. Richard S. Wallace modified by sagar talla
+organization:ALICE AI Foundation
+version:0.0.4
+
