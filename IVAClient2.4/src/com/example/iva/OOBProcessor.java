@@ -25,12 +25,12 @@ import android.widget.Toast;
 public class OOBProcessor extends MainActivity {
 	private MainActivity main;
     private String print_data;
-    RemoteViews remoteViews = new RemoteViews(GlobalObjects.widgetContext.getPackageName(), R.layout.widget1);
+    WebViewInit wvi = GlobalObjects.webViewInit;
+    WidgetInit wgi =  GlobalObjects.widgetInit;
     
-    
-	public OOBProcessor(MainActivity activity)
+	public OOBProcessor()
 	  {
-	    this.main = activity;
+	    main =  GlobalObjects.mainActivity;
 	  }
 	
 	 public void batteryLevel(String oobData, boolean isActivity)
@@ -55,13 +55,10 @@ public class OOBProcessor extends MainActivity {
                    
                    
                    if(isActivity2){
-                	   GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-                	   GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+                	   wvi.printDataAsServer(print_data);
                    }                   
                    else{
-                	   Log.i("OOB WIDGET", print_data);
-                	   remoteViews.setTextViewText(R.id.textView1, print_data);
-                	   GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+                	   wgi.printData(R.id.textView1,print_data);
                    }
                    
                 }
@@ -80,11 +77,9 @@ public class OOBProcessor extends MainActivity {
          print_data=print_data.replace("<oob><search>"+query+"</search></oob>", "");
          
          if(isActivity){
-        	 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");   
-        	 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+        	 wvi.printDataAsServer(print_data);
          }else{
-        	 remoteViews.setTextViewText(R.id.textView1, print_data);
-        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+        	 wgi.printData(R.id.textView1,print_data);
          }
 		 Uri uri = Uri.parse("http://www.google.com/search?q="+query);
 		 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -100,14 +95,11 @@ public class OOBProcessor extends MainActivity {
          print_data=print_data.replace("<oob><url>"+url+"</url></oob>", "");
          
          if(isActivity){
-        
-        	 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-        	 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+        	 wvi.printDataAsServer(print_data);
              
          }else{
         	 
-        	 remoteViews.setTextViewText(R.id.textView1, print_data);
-        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+        	 wgi.printData(R.id.textView1,print_data);
         	 
          }
          
@@ -148,14 +140,11 @@ public class OOBProcessor extends MainActivity {
 			}
 			
 			if(isActivity){
-		        
-	        	 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-	        	 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+				 wvi.printDataAsServer(print_data);
 	             
 	         }else{
 	        	 
-	        	 remoteViews.setTextViewText(R.id.textView1, print_data);
-	        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+	        	 wgi.printData(R.id.textView1,print_data);
 	        	 
 	         }
 			
@@ -199,11 +188,9 @@ public class OOBProcessor extends MainActivity {
 			}
 			
 			if(isActivity){
-				 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-				 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+				     wvi.printDataAsServer(print_data);
 				 }else{
-		        	 remoteViews.setTextViewText(R.id.textView1, print_data);
-		        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);        	 
+					 wgi.printData(R.id.textView1,print_data);	 
 		         }			
 			
 		 	
@@ -216,11 +203,9 @@ public class OOBProcessor extends MainActivity {
 		 int index = GlobalObjects.bot_responce.indexOf("<oob>");
          print_data = GlobalObjects.bot_responce.substring(0,index);
          if(isActivity){
-        	 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-        	 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+        	 wvi.printDataAsServer(print_data);
          }else{
-        	 remoteViews.setTextViewText(R.id.textView1, print_data);
-        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+        	 wgi.printData(R.id.textView1,print_data);
          }
 		         Calendar c = Calendar.getInstance();
 		         c.setTimeInMillis(java.lang.System.currentTimeMillis());
@@ -243,11 +228,9 @@ public class OOBProcessor extends MainActivity {
 		 print_data = print_data.replace("<oob><map>"+address+"</map></oob>", "");
 
 		 if(isActivity){		
-			 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-			 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+			 wvi.printDataAsServer(print_data);
 		 }else{
-        	 remoteViews.setTextViewText(R.id.textView1, print_data);
-        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+			 wgi.printData(R.id.textView1,print_data);
          }
 		 
 		 address = address.replace(" ","+");
@@ -263,14 +246,11 @@ public class OOBProcessor extends MainActivity {
 
 		 print_data = print_data.replaceAll("\\\"", "'");
 		 if(isActivity){
-		
-			 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-			 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+			 wvi.printDataAsServer(print_data);
 		 
 		 }else{
 			 
-			 remoteViews.setTextViewText(R.id.textView1, print_data);
-        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+			 wgi.printData(R.id.textView1,print_data);
 		 }
 		
          String url;
@@ -363,14 +343,11 @@ public class OOBProcessor extends MainActivity {
 
 		 print_data = print_data.replaceAll("\\\"", "'");
 		 if(isActivity){
-		
-			 GlobalObjects.mainActivity.wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-			 GlobalObjects.mainActivity.Listitems.add("server:"+print_data);
+			 wvi.printDataAsServer(print_data);
 		 }
 		 else{
 			 
-			 remoteViews.setTextViewText(R.id.textView1, print_data);
-        	 GlobalObjects.appWidgetManager.updateAppWidget(GlobalObjects.allWidgetIds, remoteViews);
+			 wgi.printData(R.id.textView1,print_data);
 		 }
 			
 	 }

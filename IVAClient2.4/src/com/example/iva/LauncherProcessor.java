@@ -16,9 +16,9 @@ public class LauncherProcessor {
 	private MainActivity main;
 	public boolean isActivity;
 	
-	public LauncherProcessor(MainActivity main,boolean isActivity) {
-		this.main = main;
-		this.isActivity = isActivity;
+	public LauncherProcessor(boolean isActivity) {
+		this.main = GlobalObjects.mainActivity;
+				this.isActivity = isActivity;
 	}
 	
 	public void process(String oobData)
@@ -48,7 +48,7 @@ public class LauncherProcessor {
 			actionEn launchAc = actionEn.valueOf(actionStr);
 			
 			
-			OOBProcessor oobp = new OOBProcessor((MainActivity)this.main);
+			OOBProcessor oobp = new OOBProcessor();
 			
 			switch(launchAc)
 			{

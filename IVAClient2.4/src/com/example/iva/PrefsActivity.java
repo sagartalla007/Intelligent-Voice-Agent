@@ -1,6 +1,8 @@
 package com.example.iva;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ static final int ADD_CONTACT = 3;
 static String userimg="images/photo.jpg";
 static String botimg="images/photo.jpg";
 static String clientname = "CLIENT";
+static String theme = "theme1";
 
 @SuppressWarnings("deprecation")
 @Override
@@ -44,11 +47,11 @@ protected void onCreate(Bundle savedInstanceState) {
 		returnToCaller();
 		
 	}
-});
-   
+  });
+     
    
    v.addFooterView(b);
-  
+   
    
    
     Preference prefereces1=findPreference("your_pic");
@@ -90,16 +93,18 @@ protected void onCreate(Bundle savedInstanceState) {
    });
    
    
-   final Preference prefereces4=findPreference("voicepref");
+   final Preference prefereces4=findPreference("themepref");
    prefereces4.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 	
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 	
 		
-		String voice = (String)newValue;
+		String selecttheme = (String)newValue;
 		
-		Log.i("VOICE SELECTED", voice);
+		Log.i("THEME SELECTED", theme);
+		
+		theme = selecttheme;
 		
 		return false;
 	}
@@ -183,6 +188,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent imageRet
 			intent.putExtra("userpath", userimg);
 			intent.putExtra("botpath", botimg);
 			intent.putExtra("clientname", clientname);
+			intent.putExtra("selecttheme", theme);
 			setResult(RESULT_OK, intent);
 			finish();
 

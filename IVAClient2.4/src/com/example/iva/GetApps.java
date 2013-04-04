@@ -82,7 +82,7 @@ public class GetApps extends AsyncTask<String, Void, List<ApplicationInfo>>{
         			}catch(ActivityNotFoundException e){
         				
         				main.wv.loadUrl("javascript:addTextS(\""+ "problem in launching application" + name +"\")");
-        		        main.Listitems.add("server:"+"problem in launching application" + name);
+        		        //main.Listitems.add("server:"+"problem in launching application" + name);
         			}
         			
         				
@@ -95,7 +95,7 @@ public class GetApps extends AsyncTask<String, Void, List<ApplicationInfo>>{
         	 if(!flag)
     			{
         		 	main.wv.loadUrl("javascript:addTextS(\""+ "could not find application let me search the google play" + name +"\")");
-        		 	main.Listitems.add("server:"+"could not find application let me search the google play" + name);
+        		 	//main.Listitems.add("server:"+"could not find application let me search the google play" + name);
         		 	
         		 	Intent goToMarket = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("market://search?q=" + name));
         		 	main.startActivity(goToMarket);        		

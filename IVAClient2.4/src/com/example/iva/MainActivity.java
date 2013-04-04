@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
-import android.R.color;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,6 +27,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,9 +42,9 @@ import android.widget.Toast;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity  {
-  WebView wv;
-  //static DefaultHttpClient client1 = new DefaultHttpClient();
+  WebViewInit wvi;
   
+  WebView wv;
   
   MyArrayList Listitems;
   String bot_responce;
@@ -55,8 +54,9 @@ public class MainActivity extends Activity  {
   String userPath;
   String botPath;
   String clientName;
+  String theme;
   
-  LauncherProcessor l = new LauncherProcessor(this,true);
+  LauncherProcessor l = new LauncherProcessor(true);
   
   //TextToSpeech tts ;
   static String PREFS_NAME="listData"; 
@@ -73,7 +73,7 @@ public class MainActivity extends Activity  {
 	setContentView(R.layout.activity_main);
 	setProgressBarIndeterminateVisibility(false);
     	
-	//client = new DefaultHttpClient();
+	
 	GlobalObjects.mainActivity = this;
 	
 		
@@ -105,34 +105,9 @@ public class MainActivity extends Activity  {
 	});
 	
 	//init webview
-    wv = (WebView) findViewById(R.id.webView01);
-    wv.setBackgroundColor(0);
-    wv.setBackgroundResource(color.transparent);
-    wv.setWebViewClient(new WebViewClient());
-    wv.getSettings().setJavaScriptEnabled(true);
-    wv.loadUrl("file:///android_asset/www/index.html");
-    
-    
-    wv.setWebViewClient(new WebViewClient() {
-
-    	   public void onPageFinished(WebView view, String url) {
-    	        
-    		SharedPreferences settings_restore = getSharedPreferences("SETTINGS_DATA", 0);
-   		    
-   		    userPath = settings_restore.getString("userpath", "images/photo.jpg");
-   		    botPath = settings_restore.getString("botpath", "images/photo.jpg");
-   		    clientName = settings_restore.getString("clientname", "clientName");
-   		    //Log.i("SETING_DATA", userPath+"  "+botPath+"  "+clientName);
-   		    wv.loadUrl("javascript:setUserImage(\""+ userPath +"\")");
-   		    wv.loadUrl("javascript:setBotImage(\""+ botPath +"\")");
-   		    wv.loadUrl("javascript:setUserName(\""+ clientName +"\")");
-    		   
-   		 	// Restore preferences
-   	         restoreList(null);
-    	    }
-    	});
-			
-			
+   	 wvi = new WebViewInit();
+	 wvi.loadWebView();
+	 GlobalObjects.webViewInit = wvi;		
 			
     //getKey
     
@@ -150,7 +125,7 @@ public class MainActivity extends Activity  {
     	
     }   
    
-    Listitems = new MyArrayList();
+    //Listitems = new MyArrayList();
     
     PackageManager pm = getPackageManager();
     List<ResolveInfo> activities = pm.queryIntentActivities(
@@ -167,15 +142,8 @@ public class MainActivity extends Activity  {
     } 
   
     
-   
-    
-   		
-		
-       
     //tts
 	//tts = new TextToSpeech(this, this);
-    
-   
    
   }
   
@@ -255,43 +223,29 @@ public class MainActivity extends Activity  {
   
   public void readWebpage(View view,String reqData) {
 	  
-	
-	 //EditText et = (EditText)findViewById(R.id.editText1);  
-	
      DownloadWebPageTask task = new DownloadWebPageTask();
-     
-     //String request = et.getText().toString();
+          
      String request = reqData;
-     
-     Listitems.add("client:"+request);
-     
-     wv.loadUrl("javascript:addTextC(\""+ request +"\")");   
-    
-    
+        
+     wvi.printDataAsClient(request);
+        
      task.execute(new String[] { request });
-    
-    
-   
+       
   }
   
   public void sendToProcess(String responce)
   {
 	  responce = responce.replaceAll("\\\"", "'");
 	  
-	  //Log.i("Responce",responce);
-	  
 	  if(responce.contains("<oob>"))
-	  {
-		  //LauncherProcessor l = new LauncherProcessor(this,true);
-		  l.process(responce);
-		  
+	  {		  
+		  l.process(responce);		  
 	  }
 		  
 	  
 	  else{
-		  Listitems.add("server:"+responce); 
-     	  wv.loadUrl("javascript:addTextS(\""+ responce +"\")");
-     	  
+		  wvi.printDataAsServer(responce);
+     	
      	  if(responce.contains("<a href"))
      	  {
      		  String speak = responce.substring(0, responce.indexOf("<a href"));
@@ -328,41 +282,38 @@ public class MainActivity extends Activity  {
 	    }).show();
 		
 	}
+ 
   
   public void restoreList(MyArrayList lData)
   {
 	  SharedPreferences restore = getSharedPreferences(PREFS_NAME, 0);
       String jList = restore.getString("listData", "[]");
-      //Log.i("RESTORE STRING", jList);
-      
+      Log.i("RESTORE STRING", jList);
       jiva = new JsonIVA();
+      if(lData == null)     
+         lData = jiva.toList(jList);
       
-      if(lData == null)
-      lData = jiva.toList(jList);
-      
-     try{ 
-	  Iterator<String> i = lData.iterator();
-	  while(i.hasNext())
-	  {		  
-		  String print_data = i.next();
-		  Listitems.add(print_data);
-		  //Log.i("RESTORE LISTITEM", print_data); 
-		  if(print_data.startsWith("client:"))
-		  {
-			  print_data = print_data.substring(7);	
-			  wv.loadUrl("javascript:addTextC(\""+ print_data +"\")");
-		  }
-		  else {
-			  print_data = print_data.substring(7);	
-			  wv.loadUrl("javascript:addTextS(\""+ print_data +"\")");
-		  }
-	  }
-     }catch(Exception e)
-     {
-    	 System.out.print(e);    	 
-     }
-	 
-     
+      Log.i("RESTORE LIST", lData.toString());
+      try{ 
+    	  Iterator<String> i = lData.iterator();
+    	  while(i.hasNext())
+    	  {		  
+    		  String print_data = i.next();
+    		  
+    		  if(print_data.startsWith("client:"))
+    		  {
+    			  print_data = print_data.substring(7);	
+    			  wvi.printDataAsClient(print_data);
+    		  }
+    		  else {
+    			  print_data = print_data.substring(7);	
+    			  wvi.printDataAsServer(print_data);
+    		  }
+    	  }
+         }catch(Exception e)
+         {
+        	 System.out.print(e);    	 
+         }
   }
   
   private void startVoiceRecognitionActivity() {
@@ -394,18 +345,21 @@ public class MainActivity extends Activity  {
 	  userPath = data.getStringExtra("userpath");
       botPath = data.getStringExtra("botpath");
       clientName = data.getStringExtra("clientname");
-     
-      wv.loadUrl("javascript:setUserImage(\""+ userPath +"\")");
-      wv.loadUrl("javascript:setBotImage(\""+ botPath +"\")");
-      wv.loadUrl("javascript:setUserName(\""+ clientName +"\")");
+      theme = data.getStringExtra("selecttheme");
+             
+      wvi.setUserpath(userPath);
+      wvi.setBotimage(botPath);
+      wvi.setUserName(clientName);
       
       SharedPreferences settings = getSharedPreferences("SETTINGS_DATA", 0);
 	  SharedPreferences.Editor editor = settings.edit();
 	  editor.putString("userpath", userPath);
 	  editor.putString("botpath", botPath);
 	  editor.putString("clientname", clientName);
-	  
+	  editor.putString("selecttheme", theme);
 	  editor.commit();
+	  
+	  wvi.loadWebView();
   }
 
   super.onActivityResult(requestCode, resultCode, data);
@@ -419,16 +373,15 @@ public class MainActivity extends Activity  {
 		 
 		 jiva = new JsonIVA();
 		 String jList = jiva.toJson(Listitems);
-		 //Log.i("STORING DATA", jList);		
+		 Log.i("STORING DATA", jList);	
 		
 		  SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 	      SharedPreferences.Editor editor = settings.edit();
 	      editor.putString("listData", jList);		
-
-	    
+    
 	      editor.commit();
 	      
-	      
+	     //Log.i("ONSTOP", Listitems.toString()); 
 	      
 	         
 	      
@@ -436,8 +389,9 @@ public class MainActivity extends Activity  {
   @Override
 	public void onConfigurationChanged(Configuration newConfig) {
 	  
-	    wv.loadUrl("file:///android_asset/www/index.html");
+	    //wv.loadUrl("file:///android_asset/www/index.html");
 	    //Log.i("CONFIG CHANG", Listitems.get(0));
+	    wvi.loadWebView();
 		super.onConfigurationChanged(newConfig);
 		restoreList(Listitems);
 		

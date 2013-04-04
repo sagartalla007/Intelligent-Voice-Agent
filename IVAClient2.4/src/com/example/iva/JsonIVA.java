@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
+import android.util.Log;
+
 public class JsonIVA {
 	   
 	
   public String toJson(ArrayList<String> listData)
    {
 	 String jsonText = JSONValue.toJSONString(listData);
-	  
+	  Log.i("JSON DATA", jsonText);
 	   return jsonText;
    }
   
@@ -28,6 +30,7 @@ public MyArrayList toList(String jsonString)
 		  catch(Exception pe){
 			    System.out.println(pe);
 			  }   
-	   return l;
+	     Log.i("LIST DATA", l.toString());
+		  return l;
   }
 }

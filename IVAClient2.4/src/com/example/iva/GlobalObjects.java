@@ -8,6 +8,7 @@ import org.apache.http.params.HttpParams;
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.webkit.WebView;
 
 public class GlobalObjects extends Application {
 
@@ -19,7 +20,9 @@ public class GlobalObjects extends Application {
 	public static String user_request;
 	public static AppWidgetManager appWidgetManager;
 	public static int[] allWidgetIds;
-	
+	public static WebView webView;
+	public static WebViewInit webViewInit;
+	public static WidgetInit widgetInit;
 	/*public static DefaultHttpClient getThreadSafeClient() {
 		        DefaultHttpClient client2 = new DefaultHttpClient();
 		        ClientConnectionManager mgr = client.getConnectionManager();

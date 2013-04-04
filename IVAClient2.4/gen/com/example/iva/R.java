@@ -36,8 +36,8 @@ public final class R {
         public static final int menu_save=0x7f090009;
         public static final int menu_settings=0x7f090008;
         public static final int save_group_button=0x7f090003;
-        public static final int textView1=0x7f090006;
-        public static final int textView2=0x7f090007;
+        public static final int textView1=0x7f090007;
+        public static final int textView2=0x7f090006;
         public static final int webView01=0x7f090000;
     }
     public static final class layout {
