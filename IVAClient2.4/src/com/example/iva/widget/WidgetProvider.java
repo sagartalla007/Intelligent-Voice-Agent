@@ -62,7 +62,7 @@ public class WidgetProvider extends AppWidgetProvider implements Receiver{
 		String request = resultData.getString("request");
 		Log.i("DATA RECEIVED",responce);
 		GlobalObjects.bot_responce = responce;
-			    
+		GlobalObjects.user_request = request;	    
 	    wgi.printData(R.id.textView2,request);
 	    sendToProcess(responce);
 				
