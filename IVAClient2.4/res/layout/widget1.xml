@@ -31,7 +31,7 @@
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
-        android:text="Glow Glow Glow Glow"
+        android:text="tap the mic to speak"
         android:textColor="#2EFFCC"
         android:textSize="15sp"
         android:textStyle="normal" />
@@ -50,7 +50,7 @@
         android:shadowDx="0.0"
         android:shadowDy="0.0"
         android:shadowRadius="8"
-        android:text="Glow Glow Glow Glow"
+        android:text=""
         android:textColor="#2EFFCC"
         android:textSize="15sp"
         android:textStyle="normal" />
