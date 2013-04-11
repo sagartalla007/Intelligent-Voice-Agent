@@ -33,7 +33,7 @@ public class MyArrayList extends ArrayList<String> {
 	      }
 	     
 		 String data = this.toString();
-		 Log.i("CURRENTLISTDATA", data);
+		 //Log.i("CURRENTLISTDATA", data);
 		 		 
 		 return ret;
 	}

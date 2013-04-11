@@ -89,11 +89,10 @@ public class OOBProcessor extends MainActivity {
 	 
 	 public void gotoUrl(String url,boolean isActivity)
 	 {  
-		 Log.i("OOBURL", url);
-		 		 		 
+		 Log.i("OOBURL", url);		 	 		 
 		 print_data = GlobalObjects.bot_responce;
-         print_data=print_data.replace("<oob><url>"+url+"</url></oob>", "");
-         
+		 //print_data = print_data.replace("<oob><url>"+url+"</url></oob>", "");
+         print_data = print_data.substring(0, print_data.indexOf("<oob>"));		 		 
          if(isActivity){
         	 wvi.printDataAsServer(print_data);
              

@@ -1,5 +1,7 @@
 package com.example.iva;
 
+import java.net.URLEncoder;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
@@ -52,7 +54,7 @@ public class WebViewInit {
 	   		    wv.loadUrl("javascript:setBotImage(\""+ botPath +"\")");
 	   		    wv.loadUrl("javascript:setUserName(\""+ clientName +"\")");
 	    		   
-	   		   	updateName();
+	   		   	//updateName();
 	   		    
 	   		     GlobalObjects.mainActivity.restoreList(null);
 	    	    }
@@ -95,7 +97,7 @@ public class WebViewInit {
 				
 				try {
 								
-				   HttpGet	httpGet = new HttpGet("http://ivaserver.intelligent-voice-agent.cloudbees.net/MainBotChat?input=I am " + ClientName);
+				   HttpGet	httpGet = new HttpGet("http://ivaserver.intelligent-voice-agent.cloudbees.net/MainBotChat?input="+URLEncoder.encode("I AM "+ClientName, "UTF-8")+"&userId="+GlobalObjects.userId);
 				   HttpResponse execute = GlobalObjects.getThreadSafeClient().execute(httpGet);
 		     			             
 					}			

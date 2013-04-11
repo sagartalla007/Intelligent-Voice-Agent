@@ -104,6 +104,7 @@ public class KeyCheck {
 			fetchKey();			
 		}
 		else Log.i("GETKEY",userId);
+		GlobalObjects.userId = userId;
 		return userId;
 	}
 }

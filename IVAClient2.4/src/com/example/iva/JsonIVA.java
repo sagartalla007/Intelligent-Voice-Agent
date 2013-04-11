@@ -13,7 +13,7 @@ public class JsonIVA {
   public String toJson(ArrayList<String> listData)
    {
 	 String jsonText = JSONValue.toJSONString(listData);
-	  Log.i("JSON DATA", jsonText);
+	  //Log.i("JSON DATA", jsonText);
 	   return jsonText;
    }
   
@@ -30,7 +30,7 @@ public MyArrayList toList(String jsonString)
 		  catch(Exception pe){
 			    System.out.println(pe);
 			  }   
-	     Log.i("LIST DATA", l.toString());
+	     //Log.i("LIST DATA", l.toString());
 		  return l;
   }
 }

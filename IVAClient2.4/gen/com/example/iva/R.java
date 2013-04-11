@@ -31,6 +31,7 @@ public final class R {
     public static final class id {
         public static final int button1=0x7f090001;
         public static final int button2=0x7f090002;
+        public static final int clear_log=0x7f09000a;
         public static final int done_button=0x7f090004;
         public static final int imageButton1=0x7f090005;
         public static final int menu_save=0x7f090009;

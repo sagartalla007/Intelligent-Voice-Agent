@@ -104,10 +104,7 @@ public class MainActivity extends Activity  {
 		}
 	});
 	
-	//init webview
-   	 wvi = new WebViewInit();
-	 wvi.loadWebView();
-	 GlobalObjects.webViewInit = wvi;		
+		
 			
     //getKey
     
@@ -124,6 +121,11 @@ public class MainActivity extends Activity  {
 	    }).show();
     	
     }   
+    
+  //init webview
+  	 wvi = new WebViewInit();
+	 wvi.loadWebView();
+	 GlobalObjects.webViewInit = wvi;	
    
     //Listitems = new MyArrayList();
     
@@ -161,7 +163,7 @@ public class MainActivity extends Activity  {
 		switch (item.getItemId()) {
       
 		case R.id.menu_save:
-         
+		{
 		  Bundle b = new Bundle();
 		 
 			
@@ -169,7 +171,20 @@ public class MainActivity extends Activity  {
           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
           startActivityForResult(intent,123);
           return true;
-      
+		}
+		
+		case R.id.clear_log:
+		{
+          Listitems.clear();
+          SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+   	      SharedPreferences.Editor editor = settings.edit();
+   	      editor.putString("listData", "[]");     
+   	      editor.commit();		
+   	      wvi.loadWebView();
+		}
+    
+          
+          
       default:
           return super.onOptionsItemSelected(item);
   
@@ -288,12 +303,12 @@ public class MainActivity extends Activity  {
   {
 	  SharedPreferences restore = getSharedPreferences(PREFS_NAME, 0);
       String jList = restore.getString("listData", "[]");
-      Log.i("RESTORE STRING", jList);
+      //Log.i("RESTORE STRING", jList);
       jiva = new JsonIVA();
       if(lData == null)     
          lData = jiva.toList(jList);
       
-      Log.i("RESTORE LIST", lData.toString());
+      //Log.i("RESTORE LIST", lData.toString());
       try{ 
     	  Iterator<String> i = lData.iterator();
     	  while(i.hasNext())
@@ -373,7 +388,7 @@ public class MainActivity extends Activity  {
 		 
 		 jiva = new JsonIVA();
 		 String jList = jiva.toJson(Listitems);
-		 Log.i("STORING DATA", jList);	
+		 //Log.i("STORING DATA", jList);	
 		
 		  SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 	      SharedPreferences.Editor editor = settings.edit();

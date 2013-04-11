@@ -3,4 +3,7 @@
     <item android:id="@+id/menu_save"
           android:title="SETTINGS"
           android:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/clear_log"
+          android:title="CLEAR LOG"
+          android:showAsAction="ifRoom|withText" />
 </menu>
