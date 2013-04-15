@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.widget.EditText;
 
 public class DialogActivity extends Activity {
@@ -22,7 +23,7 @@ public class DialogActivity extends Activity {
 		rec =  getIntent().getParcelableExtra("receiverTag");
 		
 		final EditText input = new EditText(this);
-        new AlertDialog.Builder(this)
+       /* new AlertDialog.Builder(this)
 		.setMessage("TYPE PROMPT")
 	    .setView(input)
 	    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -39,12 +40,12 @@ public class DialogActivity extends Activity {
 	        public void onClick(DialogInterface dialog, int whichButton) {
 	        	finish();
 	        }
-	    }).show();
+	    }).show();*/
 		
-		/*Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
     	intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
     	intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech recognition demo");
-    	startActivityForResult(intent, 1234);*/
+    	startActivityForResult(intent, 1234);
         
 	}
 
@@ -54,12 +55,12 @@ public class DialogActivity extends Activity {
 		
 		if (requestCode == 1234 && resultCode == RESULT_OK) {
 	    ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-	    
+	    Log.i("RECOG WIDGET DATA", matches.get(0));
 	    Intent intent = new Intent(getBaseContext(), MainService.class);
         intent.putExtra("receiverTag", rec);
         intent.putExtra("request", matches.get(0));
         startService(intent);
-	    
+	    finish();
 	    }
 	       
 	    }

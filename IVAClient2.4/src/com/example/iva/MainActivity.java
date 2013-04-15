@@ -110,8 +110,7 @@ public class MainActivity extends Activity  {
     
     if(chechConnection()){
     	new KeyCheck(this).getKey();	
-    }else{
-    	
+    }else{    	
     	new AlertDialog.Builder(this)
 		.setMessage("CHECK YOUR INTERNET CONNECTION")
 	    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -415,16 +414,20 @@ public class MainActivity extends Activity  {
   public boolean chechConnection()
   {
 	  ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-	  if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED 
-	      ||  conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING  ) {
+	  if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED 
+	      ||  conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTING 
+	         || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED 
+	           || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTING ) {
 
 
 	      //notify user you are online
 		  return true;
 
 	  }
-	  else if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED 
-	      ||  conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED) {
+	  else if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED 
+		      ||  conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTING 
+		         || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED 
+		           || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTING ) {
 	      //notify user you are not online
 		  return false;
 	  }
